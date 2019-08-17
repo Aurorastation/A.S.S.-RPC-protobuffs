@@ -1,6 +1,16 @@
 language: csharp
 mono: none
 dotnet: 2.2
-solution: ASS.API.sln
+
+env:
+  - PROTOBUF_VERSION=3.9.1
+
+install:
+  - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-linux-x86_64.zip -o /tmp/protoc.zip
+  - unzip /tmp/protoc.zip -d $HOME/protoc
+  - export PATH=$HOME/protoc/bin:$PATH
+
 script:
- - dotnet restore
+  - protoc --cpp_out=build_cpp.zip --java_out=build_java.zip --python_out=build_python.zip --php_out=build_php.zip *.proto
+  - dotnet restore
+  - dotnet build --configuration Release

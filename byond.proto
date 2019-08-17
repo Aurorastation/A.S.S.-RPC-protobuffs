@@ -1,7 +1,5 @@
 ﻿syntax = "proto3";
 
-import "generic.proto";
-
 option csharp_namespace = "ASS.API";
 
 package Byond;

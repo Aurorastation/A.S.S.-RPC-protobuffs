@@ -29,6 +29,7 @@ deploy:
     - build_cpp.zip
     - build_java.zip
     - build_python.zip
+    - build_php.zip
   skip_cleanup: true
   on:
     repo: Aurorastation/A.S.S.-RPC-protobuffs

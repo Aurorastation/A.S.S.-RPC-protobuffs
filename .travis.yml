@@ -3,14 +3,32 @@ mono: none
 dotnet: 2.2
 
 env:
-  - PROTOBUF_VERSION=3.9.1
+- PROTOBUF_VERSION=3.9.1
 
 install:
-  - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-linux-x86_64.zip -o /tmp/protoc.zip
+  - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-linux-x86_64.zip
+    -o /tmp/protoc.zip
   - unzip /tmp/protoc.zip -d $HOME/protoc
   - export PATH=$HOME/protoc/bin:$PATH
 
 script:
-  - protoc --cpp_out=build_cpp.zip --java_out=build_java.zip --python_out=build_python.zip --php_out=build_php.zip *.proto
+  - protoc --cpp_out=build_cpp.zip --java_out=build_java.zip --python_out=build_python.zip
+    --php_out=build_php.zip *.proto
   - dotnet restore
   - dotnet build --configuration Release
+
+before_deploy:
+  - zip -r build_csharp.zip bin/Release/netcoreapp2.2/
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Qex27g2g7m2gaXpLUMYg9Y4gwlYuftbiflAEvQUNcu0a4A+/eW3YRLEjA8u4Ct/ZyVDSvuqA+ckK8G4Ilf1oKzKg+7dcHoe0ETkUkZrRuvUfCSOQc4fn0OeFYAZb4H5IZLyfgbsySxIUNLlTS4GeYtM04wkdSfRyxjSZ0Qad6m4shKnY2t1Ht5OQXocc3iFKiFw0tgkzNtK3w3foQf1dR8DTb8UM8P0ZcezYKDqkhL8IqMS9SY4yUMHO6OelLcaPbdnQ3W4Yp+aIJJhkw0LjMS41dStxtvL5GDDoPeUYpBTzKk6o1VYiJT2N8+aUZl5cwubqh59zHDASsiLvAKRMeamN2vBLRaF4s0UkbrItGBJKZIAgPme+0y8ywTi9k+lkD8n1lKpoQViJgIqD6NquGwwtZJYXDORgGbRJNmtVu3xlRXVWvr2GlChzSunPBRcWCme7e9zq0Do3vlnTGwV7gWAdI+B8yRJjg3DJupGEJ2ODDQCwZnyDsEiT0HTq6mGDOtYO/S3wpLw57WTyqUmo/K/8xt3P+v+o8OezliImlD1ZtYZ8EpNR6mVfjeRAVWbiEonlkc7eBB+MzlWgXZoaS9EKNsJ2h7YFlqslS5QlOw2DbaYGVJLi9mXnFo6AhVhv1LX0dNObVbdNVTLC2KkgjXdL9HF022vjteO9jn0nxQ8=
+  file:
+    - build_csharp.zip
+    - build_cpp.zip
+    - build_java.zip
+    - build_python.zip
+  on:
+    repo: Aurorastation/A.S.S.-RPC-protobuffs
+    tags: true

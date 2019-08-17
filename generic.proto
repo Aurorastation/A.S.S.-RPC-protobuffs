@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ASS.API";
+
+package Generic;
+
+// The request message containing the user's name.
+message AuthData {
+  string token = 1;
+}
+
+message EmptyRequest {
+  AuthData auth = 1;
+}
+
+message EmptyReply {
+  
+}
+

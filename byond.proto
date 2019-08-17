@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+import "generic.proto";
+
+option csharp_namespace = "ASS.API";
+
+package Byond;
+
+
+service Byond {
+  
+}
+
+
+// The response message containing the greetings.
+message ByondVersion {
+  int32 major = 1;
+  int32 minor = 2;
+}
+

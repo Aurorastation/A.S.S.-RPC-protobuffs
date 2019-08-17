@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+import "generic.proto";
+
+option csharp_namespace = "ASS.API";
+
+package Instance;
+
+
+service Instance {
+  rpc GetStatus (Generic.EmptyRequest) returns (InstanceStatus) {}
+}
+
+
+// The response message containing the greetings.
+message InstanceStatus {
+  string message = 1;
+}
+

@@ -12,7 +12,7 @@ install:
   - export PATH=$HOME/protoc/bin:$PATH
 
 script:
-  - protoc --cpp_out=build_cpp.zip --java_out=build_java.zip --python_out=build_python.zip
+  - protoc --cpp_out=build_cpp.zip --java_out=build_java.zip --python_out=build_python.zip --grpc_python_out=build_python_classes.zip
     --php_out=build_php.zip *.proto
   - dotnet restore
   - dotnet build --configuration Release
@@ -29,6 +29,7 @@ deploy:
     - build_cpp.zip
     - build_java.zip
     - build_python.zip
+    - build_python_classes.zip
     - build_php.zip
   skip_cleanup: true
   on:
